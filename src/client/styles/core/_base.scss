@@ -1,0 +1,43 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: $DM-sans;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+main {
+    flex: 2;
+    padding: 30px 10px;
+}
+
+ol {
+    counter-reset: my-awesome-counter;
+}
+li {
+    counter-increment: my-awesome-counter;
+    margin: 0.75rem;
+}
+li::before {
+    content: counter(my-awesome-counter);
+    background: $dark-gray;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 1.5rem;
+    text-align: center;
+    margin-right: 0.5rem;
+}
+p{
+    padding: 20px 0;
+}
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+}
+#summary{
+    font-size: 18px;
+    line-height: 24px;
+}

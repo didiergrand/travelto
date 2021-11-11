@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Senti.me</title>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <div class="logo">
+                    
+                </div>
+            </header>
+            <main>
+                <section id="question" class="form-container">
+
+                <form onsubmit="Client.handleSubmit(event)" id="summmeForm">
+                    <div class="form-url">
+                        <label for="postalcode">City Zip code</label>
+                        <input id="postalcode" type="postalcode" name="postalcode" placeholder="postalcode">
+                    </div>
+                    <div class="form-sentences">
+                        <label for="country-dropdown">Country</label>
+                        <select name="country" id="country-dropdown">
+                        </select>
+                    </div>
+                    <div class="form-btn">
+                        <input id="submit" class="btn" type="submit" name="submit" value="Visit it !" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
+                    </div>
+                </form>
+                </section>
+                <section id="answer" class="form-container" style="display: none;">
+                    <h1>RESULTS</h1>
+                    <p><span>Polarity : </span><strong id="score_tag"></strong></p>
+                    <p><span>Subjectivity : </span><strong id="subjectivity"></strong></p>
+                    <p><span>Irony : </span><strong id="irony"></strong></p>
+                    <input id="reset" class="btn" type="submit" name="reset" value="Restart !" onclick="return Client.resetForm()" onsubmit="return Client.resetForm()">
+                   
+                </section>
+            </main>
+            <footer>Didier Grand did this for the Udacity Front End Web Developer Nanodegree Program</footer>
+            <script>
+                if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js');
+                });
+                }
+            </script>
+        </div>
+    </body>
+</html>

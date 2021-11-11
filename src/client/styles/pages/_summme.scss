@@ -1,0 +1,25 @@
+#summmeForm{
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 200px  1fr;
+    .form-url{
+        grid-column: 1 / 3;
+    }
+    .form-btn{
+        display: flex;
+        align-items: flex-end;
+        margin-left: 10px;
+    }
+}
+.btn{
+    width: 200px;
+    background-color: $dark-color;
+    color: $light-color;
+    cursor: pointer;  
+    transition: all .2s;
+    &:hover{
+        background-color: $light-color;
+        border: 1px solid $dark-color;
+        color: $dark-color;
+    }
+}
