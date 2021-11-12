@@ -24,6 +24,11 @@
                         <select name="country" id="country-dropdown">
                         </select>
                     </div>
+                    <div class="form-date">
+                        <label for="start">Start date:</label>
+                        <input type="date" id="startdate" name="trip-start"
+                            min="2021-01-01" max="2025-12-31">
+                    </div>
                     <div class="form-btn">
                         <input id="submit" class="btn" type="submit" name="submit" value="Visit it !" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
                     </div>
@@ -31,9 +36,9 @@
                 </section>
                 <section id="answer" class="form-container" style="display: none;">
                     <h1>RESULTS</h1>
-                    <p><span>Polarity : </span><strong id="score_tag"></strong></p>
-                    <p><span>Subjectivity : </span><strong id="subjectivity"></strong></p>
-                    <p><span>Irony : </span><strong id="irony"></strong></p>
+                    <p><span>City : </span><strong id="score_tag"></strong></p>
+                    <p><span>Date : </span><strong id="subjectivity"></strong></p>
+                    <p><span>Temperature : </span><strong id="irony"></strong></p>
                     <input id="reset" class="btn" type="submit" name="reset" value="Restart !" onclick="return Client.resetForm()" onsubmit="return Client.resetForm()">
                    
                 </section>

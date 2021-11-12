@@ -39,68 +39,84 @@ app.listen(port, function () {
 });
 
 app.post('/countrycodes', async (req, res) => { 
-    const countryname_url = 'http://country.io/names.json';
-    const countryname_response = await fetch(countryname_url);
-    const countryname_data = await countryname_response.json();
+    let countryname_url = 'http://country.io/names.json';
+    let countryname_response = await fetch(countryname_url);
+    let countryname_data = await countryname_response.json();
     
     res.json(countryname_data);
 });
 
 app.post('/travel', async (req, res) => { // send data
-    const postalcode = req.body.postalcode;
-    const countrycode = req.body.countrycode;
-    
-    const geonames_url = `http://api.geonames.org/postalCodeSearchJSON?postalcode=${postalcode}&country=${countrycode}&maxRows=10&username=dgrand`;    
-    const geonames_response = await fetch(geonames_url);
-    const geonames_data = await geonames_response.json();
+    let postalcode = req.body.postalcode;
+    let countrycode = req.body.countrycode;
+    console.log("postalcode: "+postalcode);
+    console.log("countrycode: "+countrycode);
+    let geonames_url = `http://api.geonames.org/postalCodeSearchJSON?postalcode=${postalcode}&country=${countrycode}&maxRows=10&username=dgrand`;    
+    let geonames_response = await fetch(geonames_url);
+    let geonames_data = await geonames_response.json()
+    if(countrycode=='0'){
+        console.log('countrycode error');
+        weatherData = {
+            'error' : 'countrycode'
+        }
+    }  else if (geonames_response.status !== 200){
+        console.log(geonames_response.status);
+        console.log('api error !');
+    } else if (geonames_data.postalCodes==0 || postalcode=='' ) {
+        console.log('postalcode error');
+        weatherData = {
+            'error' : 'postalcode'
+        }
+    } else  {
 
-    const lat = geonames_data.postalCodes[0].lat;
-    const lng = geonames_data.postalCodes[0].lng;
-    const city = geonames_data.postalCodes[0].placeName;
-    const state = geonames_data.postalCodes[0].adminName1;
-    const country = geonames_data.postalCodes[0].countryCode;
+        let lat = geonames_data.postalCodes[0].lat;
+        let lng = geonames_data.postalCodes[0].lng;
+        let city = geonames_data.postalCodes[0].placeName;
+        let state = geonames_data.postalCodes[0].adminName1;
+        let country = geonames_data.postalCodes[0].countryCode;
 
-    // Weatherbit
-    
-    const weatherbit_url = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lng}&key=3f05c0bfc4eb40f1847219f323a7f951`;
-    const weatherbit_response = await fetch(weatherbit_url);
-    const weatherbit_data = await weatherbit_response.json();
+        // Weatherbit
+        
+        let weatherbit_url = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lng}&key=3f05c0bfc4eb40f1847219f323a7f951`;
+        let weatherbit_response = await fetch(weatherbit_url);
+        let weatherbit_data = await weatherbit_response.json();
 
-    // Country
+        // Country
 
-    const countryname_url = `http://country.io/names.json`;
-    const countryname_response = await fetch(countryname_url);
-    const countryname_data = await countryname_response.json();
-    const countryname = countryname_data[country];
+        let countryname_url = `http://country.io/names.json`;
+        let countryname_response = await fetch(countryname_url);
+        let countryname_data = await countryname_response.json();
+        let countryname = countryname_data[country];
 
-    // Pixabay
+        // Pixabay
 
-    const pixabay_url = `https://pixabay.com/api/?key=5442229-dc0066f9aae76d8988cf4f6ec&q=${city}+${countryname}&image_type=photo`;
-    const pixabay_response = await fetch(pixabay_url);
-    const pixabay_data = await pixabay_response.json();
-    //console.log(pixabay_data);
-
-    if(pixabay_data.total == 0){
-        const pixabay_url = `https://pixabay.com/api/?key=5442229-dc0066f9aae76d8988cf4f6ec&q=${state}+${countryname}&image_type=photo`;
-        const pixabay_response = await fetch(pixabay_url);
-        const pixabay_data = await pixabay_response.json();
+        let pixabay_url = `https://pixabay.com/api/?key=5442229-dc0066f9aae76d8988cf4f6ec&q=${city}+${countryname}&image_type=photo`;
+        let pixabay_response = await fetch(pixabay_url);
+        let pixabay_data = await pixabay_response.json();
         //console.log(pixabay_data);
-    }
-    if(pixabay_data.total == 0){
-        const pixabay_url = `https://pixabay.com/api/?key=5442229-dc0066f9aae76d8988cf4f6ec&q=${countryname}&image_type=photo`;
-        const pixabay_response = await fetch(pixabay_url);
-        const pixabay_data = await pixabay_response.json();
-        //console.log(pixabay_data);
-    }
 
-    weatherData = {
-        'postalcode': postalcode,
-        'city': geonames_data.postalCodes[0].placeName,
-        'state': geonames_data.postalCodes[0].adminName1,
-        'country': geonames_data.postalCodes[0].countryCode,
-        'weather': weatherbit_data.data[0]
+        if(pixabay_data.total == 0){
+            let pixabay_url = `https://pixabay.com/api/?key=5442229-dc0066f9aae76d8988cf4f6ec&q=${state}+${countryname}&image_type=photo`;
+            let pixabay_response = await fetch(pixabay_url);
+            let pixabay_data = await pixabay_response.json();
+            //console.log(pixabay_data);
+        }
+        if(pixabay_data.total == 0){
+            let pixabay_url = `https://pixabay.com/api/?key=5442229-dc0066f9aae76d8988cf4f6ec&q=${countryname}&image_type=photo`;
+            let pixabay_response = await fetch(pixabay_url);
+            let pixabay_data = await pixabay_response.json();
+            //console.log(pixabay_data);
+        }
+
+        weatherData = {
+            'postalcode': postalcode,
+            'city': geonames_data.postalCodes[0].placeName,
+            'state': geonames_data.postalCodes[0].adminName1,
+            'country': geonames_data.postalCodes[0].countryCode,
+            'weather': weatherbit_data.data[0]
+        }
+        
     }
-    
     res.json(weatherData);
 
 });
