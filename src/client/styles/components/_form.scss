@@ -1,0 +1,25 @@
+form {
+    padding: 20px 0;
+}
+input,select {
+    padding: 5px 20px;
+    width: 100%;
+    line-height: 16px;
+    margin: 10px 0 0;
+    height: 100px;
+    background-color:$transparent-color;
+    border: 0;
+    font-family: $Dosis;
+    font-weight: 400;
+    font-size: 24px;
+}
+.btn{
+    background-color: $dark-color;
+    color: $light-color;
+    cursor: pointer;  
+    transition: all .2s;
+    &:hover{
+        background-color: $light-color;
+        color: $dark-color;
+    }
+} 

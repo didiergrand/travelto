@@ -1,0 +1,45 @@
+#question{
+    display: grid;
+    grid-template-columns: 0 100vw; 
+    transition: grid-template-columns .2s;
+    @media only screen and (min-width: $breakpoint) {
+        grid-template-columns: 34vw 66vw;    
+    }   
+    min-height: 100vh;
+    &__pic{
+        background-image: url('../assets/images/mountains-6792383_1920.jpg');
+        background-position: center center;
+        background-size: cover;
+    }
+    &__form{
+        padding: 20px;
+        .form-container{    
+            width: calc(100vw - 40px);
+            min-height: calc(100vh - 40px);
+            background-color: $light-gray;
+            padding: 20px;
+        }    
+        @media only screen and (min-width: $breakpoint) {
+            padding: 50px;
+            .form-container{    
+                width: calc(66vw - 100px);
+                min-height: calc(100vh - 100px);
+                padding: 50px;
+            }
+        }   
+    }
+}
+#summmeForm{
+    display: grid;
+    grid-template-columns: 1fr ;
+    @media only screen and (min-width: $breakpoint) {
+        grid-template-columns: 1fr 1fr;
+    }
+    >div{
+        margin-right: 10px;
+    }
+    .form-btn{
+        display: flex;
+        align-items: flex-end;
+    }
+}

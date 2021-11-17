@@ -1,0 +1,42 @@
+#answer{
+    background-size: cover;
+    background-position: center center;
+    padding:20px;
+    @media only screen and (min-width: $breakpoint) {
+        padding:50px;
+    }
+    min-height: 100vh;
+    .answer-container{    
+        background-color: $transparent-color;
+        padding: 20px;
+        @media only screen and (min-width: $breakpoint) {
+            padding:50px;
+        }
+        width: fit-content;
+    }
+}
+#weather{
+    margin-top: -20px;
+    display: grid;
+    grid-template-columns: 170px auto;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "weathericon weathertemp"
+        "weathericon weatherdesc";
+    #res_weathericon{
+        grid-area: weathericon;
+    }
+    #res_weathertemp {
+        grid-area:weathertemp;
+        display: flex;
+        align-items: end;
+        font-size: 60px;
+        line-height: 1;
+        &::after{
+            content: '°';
+        }
+    }
+    #res_weatherdescription{
+        grid-area:weatherdesc;
+    }
+}
