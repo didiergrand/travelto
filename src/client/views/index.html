@@ -2,48 +2,60 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>Senti.me</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>travel.to</title>
     </head>
     <body>
-        <div class="container">
-            <header>
-                <div class="logo">
-                    
+        <div id="question" class="container">
+            <section id="question__pic"></section>
+            <section id="question__form">
+                <div class="form-container">
+                    <header>
+                        <h1 class="logo">
+                            travel.to
+                        </h1>
+                    </header>
+                    <p>Hey! 👋 <br>  
+                    If you planned your next trip, you are at the right place.<br>
+                        Enter the city and the country of your favorite destination, and you’ll find some helpful informations about the weather forecast.</p>
+                    <form onsubmit="Client.handleSubmit(event)" id="summmeForm">
+                        <div class="form-sentences">
+                            <label for="country-dropdown">Country</label>
+                            <select name="country" id="country-dropdown">
+                            </select>
+                            <div id="country-error" class="error" style="display:none">Choose a country, please</div>
+                        </div>
+                        <div class="form-url">
+                            <label for="cityname">City (optional)</label>
+                            <input id="cityname" type="cityname" name="cityname" placeholder="City name">
+                            <div id="city-error" class="error" style="display:none">Sorry we cannot find this city name in your country selection!</div>
+                        </div>
+                        <div class="form-date">
+                            <label for="start">Start date:</label>
+                            <input type="date" id="startdate" name="trip-start"
+                                min="2021-01-01" max="2025-12-31">
+                        </div>
+                        <div class="form-btn">
+                            <input id="submit" class="btn" type="submit" name="submit" value="Travel to !" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
+                        </div>
+                    </form>
                 </div>
-            </header>
-            <main>
-                <section id="question" class="form-container">
-
-                <form onsubmit="Client.handleSubmit(event)" id="summmeForm">
-                    <div class="form-url">
-                        <label for="postalcode">City Zip code</label>
-                        <input id="postalcode" type="postalcode" name="postalcode" placeholder="postalcode">
+            </section>
+        </div>
+            <section id="answer" class="form-container" style="display: none; background-image: url();">
+                <div class="answer-container">
+                    <h1>My trip to <strong id="res_cityname"></strong> <strong id="res_country"></strong></h1>
+                    <p><span>Start date : </span><strong id="res_startdate"></strong></p>
+                    <p>Current Weather</p>
+                    <div id="weather">
+                        <div id="res_weathericon"></div>
+                        <div id="res_weathertemp"></div>
+                        <div id="res_weatherdescription"></div>
                     </div>
-                    <div class="form-sentences">
-                        <label for="country-dropdown">Country</label>
-                        <select name="country" id="country-dropdown">
-                        </select>
-                    </div>
-                    <div class="form-date">
-                        <label for="start">Start date:</label>
-                        <input type="date" id="startdate" name="trip-start"
-                            min="2021-01-01" max="2025-12-31">
-                    </div>
-                    <div class="form-btn">
-                        <input id="submit" class="btn" type="submit" name="submit" value="Visit it !" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
-                    </div>
-                </form>
-                </section>
-                <section id="answer" class="form-container" style="display: none;">
-                    <h1>RESULTS</h1>
-                    <p><span>City : </span><strong id="score_tag"></strong></p>
-                    <p><span>Date : </span><strong id="subjectivity"></strong></p>
-                    <p><span>Temperature : </span><strong id="irony"></strong></p>
-                    <input id="reset" class="btn" type="submit" name="reset" value="Restart !" onclick="return Client.resetForm()" onsubmit="return Client.resetForm()">
-                   
-                </section>
-            </main>
-            <footer>Didier Grand did this for the Udacity Front End Web Developer Nanodegree Program</footer>
+                    <input id="reset" class="btn" type="submit" name="reset" value="Choose another destination !" onclick="return Client.resetForm()" onsubmit="return Client.resetForm()">
+                </div>    
+                <footer>Didier Grand did this for the Udacity Front End Web Developer Nanodegree Program</footer>
+            </section>
             <script>
                 if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
@@ -51,6 +63,5 @@
                 });
                 }
             </script>
-        </div>
     </body>
 </html>

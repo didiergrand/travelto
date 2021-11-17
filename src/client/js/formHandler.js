@@ -1,6 +1,3 @@
-
-
-
 const dropdown = document.getElementById('country-dropdown');
 
 const baseURL = "/countrycodes";
@@ -29,16 +26,24 @@ fetch(baseURL, {
 function addCurrentDate(){
     const date = new Date();   
     const y = date.getFullYear();
-    const m = date.getMonth();
+    const m = date.getMonth() + 1;
     const d = date.getDate();
     document.getElementById('startdate').setAttribute("value", y +'-'+ m +'-'+ d);
-    console.log(d +'-'+ m +'-'+ y);
+}
+	
+function niceDate(date){
+    const dateparts = date.split('-');
+    const monthName = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+    
+    const datey = dateparts[0];
+    const datem = monthName[dateparts[1]-1];
+    const dated = dateparts[2];
+
+    const newdate = datem +" "+ dated +", "+ datey;
+    return newdate
 }
 	
    
-
-
-
 function createCountrySelection(data){
      
     dropdown.length = 0;
@@ -49,9 +54,7 @@ function createCountrySelection(data){
 
     dropdown.add(defaultOption);
     dropdown.selectedIndex = 0;
-
     const countryCount = Object.keys(data).length;
-
     for (var i = 0; i < countryCount; i++) {
 
         let countryCode = Object.keys(data)[i];
@@ -86,17 +89,30 @@ function sortSelect(selElem) {
 
 function resetForm(){
     document.getElementById('answer').style.display = 'none';
-    document.getElementById('question').style.display = 'block';
-    document.getElementById('postalcode').value = '';
+    document.getElementById('question').style.display = 'grid';
+    document.getElementById('city-error').style.display = 'none';
+    document.getElementById('country-error').style.display = 'none';
+}
+function getWeatherIcon(weatherCode){
+
+
+    fetch('../assets/mapping.json')
+    .then(res => res.json()) 
+    .then(function (res) { 
+        document.getElementById('res_weathericon').innerHTML = '<img src="/images/weather/'+res[weatherCode]+'.svg">';
+    })
+    .catch((error) => {
+        console.log("error : ", error);
+    })
 }
 
 function handleSubmit(event) {
-    event.preventDefault()
-    console.log('handleSubmit');
+    event.preventDefault();
+    let citynameInput = document.getElementById('cityname').value; 
+    let startDateInput = document.getElementById('startdate').value; 
+    let countryInput = document.getElementById('country-dropdown').value; 
 
     const baseURL = "/travel";
-    let postalcodeInput = document.getElementById('postalcode').value; 
-    let countryInput = document.getElementById('country-dropdown').value; 
     fetch(baseURL, { 
         method: 'POST',
         credentials: 'same-origin',
@@ -104,18 +120,27 @@ function handleSubmit(event) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({postalcode: postalcodeInput, countrycode: countryInput}) // add postalcode to /sentime body
+        body: JSON.stringify({cityname: citynameInput, startdate: startDateInput, countrycode: countryInput}) // add cityname to /sentime body
     })
     .then(res => res.json()) 
     .then(function (res) { 
-        if(res.error == 'postalcode'){
-            alert('Please choose a country ')
-        } else if(res.error == 'postalcode'){
-            alert('postal code does not match with a country the country !')
+        if(res.error == 'countrycode'){
+            document.getElementById('country-error').style.display = 'block';
+        } else if(res.error == 'cityname'){
+            document.getElementById('city-error').style.display = 'block';
         } else {
-            console.log(res);
+            document.getElementById('res_startdate').innerHTML =  niceDate(res.startdate);
+            document.getElementById('res_cityname').innerHTML = res.cityname;
+            document.getElementById('res_country').innerHTML = res.country;
+            document.getElementById('answer').style.backgroundImage = 'url("'+res.imageL+'")';
+            document.getElementById('res_weathertemp').innerHTML = res.weather.temp;
+            document.getElementById('res_weatherdescription').innerHTML = res.weather.weather.description;
+            const weatherCode = "wb"+res.weather.weather.code;
+            getWeatherIcon(weatherCode); 
+
+            document.getElementById('answer').style.display = 'block';
+            document.getElementById('question').style.display = 'none';
         }
-        // document.getElementById('date').innerHTML = allData[lastItem].date;
     })
     .catch((error) => {
         console.log("error : ", error);

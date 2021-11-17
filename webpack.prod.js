@@ -3,9 +3,9 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
+const CopyPlugin = require('copy-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
@@ -22,14 +22,15 @@ module.exports = {
                 test: /\.scss$/,
                 use: [ MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader' ]
             },
-            {
-              test: /\.(png|svg|jpg|jpeg|gif)$/i,
-              loader: 'file-loader',
-              options: {
-                name: '[name].[ext]',
-              },
-
-            },
+            {   
+                type: 'javascript/auto',
+                test: /\.json$/,
+                loader: 'file-loader',
+                options: {
+                  name: '[name].[ext]',
+                  outputPath: './assets'
+                }
+              }
         ]
     },
     output:{
@@ -37,7 +38,7 @@ module.exports = {
         library: 'Client',
     },
     optimization: {
-        minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
+        minimizer: [new TerserPlugin({})],
     },
     plugins: [
         new HtmlWebPackPlugin({
@@ -48,6 +49,12 @@ module.exports = {
         new WorkboxPlugin.GenerateSW({
             clientsClaim: true,
             skipWaiting: true,
-        })
+        }),
+        new CopyPlugin({
+          patterns: [
+            {   from:   "./src/client/assets/images/weather", 
+                to:     "./images/weather" }
+          ],
+        }),
     ]
 }

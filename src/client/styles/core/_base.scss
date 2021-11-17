@@ -2,9 +2,10 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-family: $DM-sans;
+    font-family: $Dosis;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 24px;
+    line-height: 1.5;
 }
 
 main {
@@ -33,11 +34,12 @@ li::before {
 p{
     padding: 20px 0;
 }
-.container {
-    max-width: 800px;
-    margin: 50px auto;
-}
 #summary{
     font-size: 18px;
     line-height: 24px;
+}
+.error{    
+    color: red;
+    font-size: 0.8em;
+    margin-bottom: 20px;
 }
