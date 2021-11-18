@@ -1,28 +1,30 @@
 const dropdown = document.getElementById('country-dropdown');
 
-const baseURL = "/countrycodes";
-fetch(baseURL, { 
-    method: 'POST',
-    credentials: 'same-origin',
-    mode: 'cors',
-    headers: { 
-        'Content-Type': 'application/json',
-    },
-})
-.then(res => res.json()) 
-.then(function (res) { 
-    createCountrySelection(res);
-})
-.then(function () { 
-    sortSelect(dropdown);
-})
-.then(function () { 
-    addCurrentDate();
-})
-.catch((error) => {
-    console.log("error : ", error);
-});
-
+if (dropdown) {
+    const baseURL = "/countrycodes";
+    fetch(baseURL, { 
+        method: 'POST',
+        credentials: 'same-origin',
+        mode: 'cors',
+        headers: { 
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(res => res.json()) 
+    .then(function (res) { 
+        createCountrySelection(res);
+    })
+    .then(function () { 
+        sortSelect(dropdown);
+    })
+    .then(function () { 
+        addCurrentDate();
+    })
+    .catch((error) => {
+        console.log("error : ", error);
+    });
+}
+// Add current date to the input date field
 function addCurrentDate(){
     const date = new Date();   
     const y = date.getFullYear();
@@ -30,7 +32,8 @@ function addCurrentDate(){
     const d = date.getDate();
     document.getElementById('startdate').setAttribute("value", y +'-'+ m +'-'+ d);
 }
-	
+
+// convert date from 2021-11-17 to November 17, 2021
 function niceDate(date){
     const dateparts = date.split('-');
     const monthName = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
@@ -43,7 +46,7 @@ function niceDate(date){
     return newdate
 }
 	
-   
+// Create a dropdown for the country selection
 function createCountrySelection(data){
      
     dropdown.length = 0;
@@ -67,7 +70,7 @@ function createCountrySelection(data){
     }   
 }
 
-
+// Order the country by name / alphabetically order
 function sortSelect(selElem) {
     let tmpAry = new Array();
     for (let i=0;i<selElem.options.length;i++) {
@@ -86,16 +89,16 @@ function sortSelect(selElem) {
     return;
 }
 
-
+// reset the form when we click on the button "choose another destination"
 function resetForm(){
     document.getElementById('answer').style.display = 'none';
     document.getElementById('question').style.display = 'grid';
     document.getElementById('city-error').style.display = 'none';
     document.getElementById('country-error').style.display = 'none';
 }
+
+// convert the weather code from weatherbit API to the svg icon name
 function getWeatherIcon(weatherCode){
-
-
     fetch('../assets/mapping.json')
     .then(res => res.json()) 
     .then(function (res) { 
@@ -106,6 +109,7 @@ function getWeatherIcon(weatherCode){
     })
 }
 
+// get the data from form // display the result on the view
 function handleSubmit(event) {
     event.preventDefault();
     let citynameInput = document.getElementById('cityname').value; 
@@ -151,7 +155,3 @@ function handleSubmit(event) {
 export { resetForm }
 export { handleSubmit }
 export { createCountrySelection }
-
-
-
-
