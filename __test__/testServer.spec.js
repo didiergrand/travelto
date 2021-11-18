@@ -1,7 +1,7 @@
 import { server } from "../src/server/index";
 
-describe('Test: "PORT" should be set to 8082', () => {
-  it("should be a 8082", async () => {
+describe('Test: localhost port should be set', () => {
+  it("Localhost port should be defined", async () => {
     expect(server).toBe(undefined);
   });
 });
